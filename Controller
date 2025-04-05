@@ -1,0 +1,169 @@
+package com.example.project.Controller;
+
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import com.example.project.Entity.MovieEntity;
+import com.example.project.Entity.ShowEntity;
+import com.example.project.Entity.TheaterEntity;
+import com.example.project.Entity.Ticket;
+import com.example.project.Entity.UserEntity;
+import com.example.project.Service.ProjService;
+
+@RestController
+
+public class ProjController {
+     @Autowired
+     ProjService ps;
+     
+     @GetMapping("/gett1")
+     public List<TheaterEntity> get1()
+     {
+    	 return ps.getall1();
+     }
+      @GetMapping("/gett2")
+      public List<MovieEntity> get2()
+      {
+    	  return ps.getall2();
+      }
+      @GetMapping("/gett3")
+      public List<UserEntity>  get3()
+      {
+    	  return ps.getall3();
+       }
+      @GetMapping("/gett4")
+      public List<ShowEntity> get4()
+      {
+    	  return ps.getall4();
+      }
+      @GetMapping("/gett5")
+      public List<Ticket> get5()
+      {
+    	  return ps.getall5();
+      }
+      @PostMapping("/postt1")
+  	public TheaterEntity postall1(@RequestBody TheaterEntity obj)
+  	{
+  		return  ps.post1(obj);
+  	}
+      @PostMapping("/postt2")
+    	public MovieEntity postall2(@RequestBody MovieEntity obj)
+    	{
+    		return  ps.post2(obj);
+    	}
+      @PostMapping("/postt3")
+    	public UserEntity postall3(@RequestBody UserEntity obj)
+    	{
+    		return  ps.post3(obj);
+    	}  
+      @PostMapping("/postt4")
+      	public ShowEntity postall4(@RequestBody ShowEntity obj)
+      	{
+      		return  ps.post4(obj);
+      	}   
+    	@PostMapping("/postt5")
+      	public Ticket postall5(@RequestBody Ticket obj)
+      	{
+      		return  ps.post5(obj);
+      	}
+       @DeleteMapping("/deletet1/{data}")
+       public String deleted1(@PathVariable int data)
+       {
+      	 return ps.deleteid1(data);
+        }
+       @DeleteMapping("/deletet2/{data}")
+       public String deleted2(@PathVariable int data)
+       {
+      	 return ps.deleteid2(data);
+        }
+       @DeleteMapping("/deletet3/{data}")
+       public String deleted3(@PathVariable int data)
+       {
+      	 return ps.deleteid3(data);
+        }
+       @DeleteMapping("/deletet4/{data}")
+       public String deleted4(@PathVariable int data)
+       {
+      	 return ps.deleteid4(data);
+        }
+       @DeleteMapping("/deletet5/{data}")
+       public String deleted5(@PathVariable int data)
+       {
+      	 return ps.deleteid5(data);
+        }
+        @PutMapping("/putt1/{id}")
+        public TheaterEntity updated1(@PathVariable int id,@RequestBody TheaterEntity te)
+        {
+      	  return ps.updateid1(id, te);
+      	 }
+        @PutMapping("/putt2/{id}")
+        public MovieEntity updated2(@PathVariable int id,@RequestBody MovieEntity me)
+        {
+      	  return ps.updateid2(id, me);
+      	 } 
+        @PutMapping("/putt3/{id}")
+         public UserEntity updated3(@PathVariable int id,@RequestBody UserEntity ue)
+         {
+       	  return ps.updateid3(id, ue);
+       	 } 
+        @PutMapping("/putt4/{id}")
+         public ShowEntity updated4(@PathVariable int id,@RequestBody ShowEntity se)
+         {
+       	  return ps.updateid4(id, se);
+       	 } 
+        @PutMapping("/put5/{id}")
+        public Ticket updated5(@PathVariable int id,@RequestBody Ticket see)
+        {
+      	  return ps.updateid5(id, see);
+      	 } 
+        
+        @GetMapping("/startspro")
+        public List<MovieEntity> startswith(@RequestParam String title)
+        {
+      	  return  ps.starts(title);
+        }
+        @GetMapping("/endspro")
+        public List<MovieEntity> endswith(@RequestParam String title)
+        {
+      	  return  ps.ends(title);
+        }
+        @GetMapping("/containspro")
+        public List<MovieEntity> contains(@RequestParam String title)
+        {
+      	  return  ps.contains(title);
+        } @GetMapping("/and")
+        public List<MovieEntity> and(@RequestParam String title,@RequestParam String genre)
+        {
+      	  return  ps.and(title, genre);
+        } @GetMapping("/or")
+        public List<MovieEntity> or(@RequestParam String title,@RequestParam String genre)
+        {
+      	  return  ps.or(title,genre);
+        } @GetMapping("/in")
+        public List<MovieEntity> in(@RequestParam List<String> title)
+        {
+      	  return  ps.in(title);
+        }
+
+@GetMapping("/Page")
+public Page<MovieEntity> page_12(@RequestParam int page,@RequestParam int size)
+{
+	 return ps.get_data_all(page, size);
+}
+@PostMapping("/sendmail")
+public  String mailSend(@RequestParam String receiver,@RequestParam String subject,@RequestParam String body)
+{
+	return ps.sendmail(receiver, subject, body);
+}    
+
+}
