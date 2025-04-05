@@ -1,0 +1,19 @@
+package com.example.project.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.project.Entity.MovieEntity;
+
+@Repository
+public interface MovieRepo extends JpaRepository<MovieEntity, Integer> {
+	List<MovieEntity> findAll();
+	List<MovieEntity> findByTitleContains(String title);
+	List<MovieEntity> findByTitleStartingWith(String title);
+	List<MovieEntity> findByTitleEndingWith(String title);
+	List<MovieEntity> findByTitleOrGenre(String title,String genre);
+	List<MovieEntity> findByTitleAndGenre(String title,String genre);
+	List<MovieEntity> findByTitleIn(List<String>title);
+}
