@@ -1,0 +1,274 @@
+package com.example.project.Service;
+
+import java.util.List;
+
+import jakarta.mail.MessagingException;
+//import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import org.springframework.stereotype.Service;
+
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import com.example.project.Entity.MovieEntity;
+import com.example.project.Entity.ShowEntity;
+import com.example.project.Entity.TheaterEntity;
+import com.example.project.Entity.Ticket;
+import com.example.project.Entity.UserEntity;
+import com.example.project.Repository.MovieRepo;
+import com.example.project.Repository.ShowRepo;
+import com.example.project.Repository.TheaterRepo;
+import com.example.project.Repository.TicketRepo;
+import com.example.project.Repository.UserRepo;
+
+
+
+
+
+@Service
+public class ProjService {
+	@Autowired
+    MovieRepo mr;
+	@Autowired
+	ShowRepo sr;
+	@Autowired
+	TheaterRepo tr;
+	@Autowired 
+	TicketRepo tir;
+	@Autowired
+	UserRepo ur;
+	public List<TheaterEntity> getall1()
+	{
+		return tr.findAll();
+	}
+	public List<MovieEntity>getall2()
+	{
+		return mr.findAll();
+	}
+	public List<UserEntity> getall3()
+	{
+		return ur.findAll();
+	}
+	public List<ShowEntity> getall4()
+	{
+		return sr.findAll();
+	}
+	public List<Ticket> getall5()
+	{
+		return tir.findAll();
+	}
+	public TheaterEntity post1(TheaterEntity te)
+	{
+		return tr.save(te);
+	}
+	public MovieEntity post2(MovieEntity me)
+	{
+		return mr.save(me);
+	}
+	public UserEntity post3(UserEntity ue)
+	{
+		return ur.save(ue);
+	}
+	public ShowEntity post4(ShowEntity se)
+	{
+		return sr.save(se);
+	}
+	public Ticket post5(Ticket tie)
+	{
+		return tir.save(tie); 
+	}
+	public String deleteid1(int id1)
+	{
+		if(tr.existsById(id1))
+		{
+			tr.deleteById(id1);
+			return "Value Deleted in table1";
+		}
+		else
+		{
+			return"Id not found in table1";
+		}
+	}
+	public String deleteid2(int id2)
+	{
+		if(mr.existsById(id2))
+		{
+			mr.deleteById(id2);
+			return "Value Deleted in table2";
+		}
+		else
+		{
+			return"Id not found in table2";
+		}
+	}
+	public String deleteid3(int id3)
+	{
+		if(ur.existsById(id3))
+		{
+			ur.deleteById(id3);
+			return "Value Deleted in table3";
+		}
+		else
+		{
+			return "Id not found in table3";
+		}
+	}
+	public String deleteid4(int id4)
+	{
+		if(sr.existsById(id4)) {
+			sr.deleteById(id4);
+			return "Value Deleted in table4";
+			
+		}
+		else
+		{
+			return "Id not found in table4";
+		}
+	}
+	public String deleteid5(int id5)
+	{
+		if(tir.existsById(id5))
+		{
+			tir.deleteById(id5);
+			return "Value deleted in table5";
+		}
+		else
+		{
+			return "Id not found in table5"; 
+		}
+	}
+public MovieEntity updateid2(int id2,MovieEntity me)
+	
+	{
+		if(mr.existsById(id2))
+		{
+			MovieEntity obj2=mr.findById(id2).get();
+			obj2.setDuration(me.getDuration());
+			obj2.setGenre(me.getGenre());
+;
+			obj2.setTitle(me.getTitle());
+			return mr.save(obj2);
+		}
+		return me;
+	}
+public ShowEntity updateid4(int id4,ShowEntity se)
+
+{
+	if(sr.existsById(id4))
+	{
+	   ShowEntity obj4=sr.findById(id4).get();
+		obj4.setMovieId(se.getMovieId());
+		obj4.setPrice(se.getPrice());
+		
+		obj4.setTheaterId(se.getTheaterId());
+		return sr.save(obj4);
+	}
+	return se;
+}
+public TheaterEntity updateid1(int id1,TheaterEntity te)
+{
+	if(tr.existsById(id1))
+	{
+		TheaterEntity obj1=tr.findById(id1).get();
+		obj1.setLocation(te.getLocation());
+
+		obj1.setTheaterName(te.getTheaterName());
+		return tr.save(obj1);
+	}
+	return te;
+}
+public UserEntity updateid3(int id3,UserEntity ue)
+{
+	if(ur.existsById(id3))
+	{
+		UserEntity obj3=ur.findById(id3).get();
+		obj3.setEmail(ue.getEmail());
+		obj3.setPassword(ue.getPassword());
+
+		obj3.setUserName(ue.getUserName());
+		return ur.save(obj3);
+	}
+	return ue;
+}
+public Ticket updateid5(int id5,Ticket tic)
+{
+	if(tir.existsById(id5))
+	{
+		Ticket obj5=tir.findById(id5).get();
+		obj5.setSeatNumber(tic.getSeatNumber());
+		obj5.setShowId(tic.getShowId());
+		
+		obj5.setTotalPrice(tic.getTotalPrice());
+		return tir.save(obj5);
+	}
+	return tic;
+}
+public List<MovieEntity> contains(String title)
+{
+	return mr.findByTitleContains(title);
+	}
+public List<MovieEntity> starts(String title)
+{
+	return mr.findByTitleStartingWith(title);
+	}
+public List<MovieEntity> ends(String title)
+{
+	return mr.findByTitleEndingWith(title);
+	}
+public List<MovieEntity> and(String title,String genre)
+{
+	return mr.findByTitleAndGenre(title, genre);
+}
+public List<MovieEntity> or(String title,String genre)
+{
+	return mr.findByTitleOrGenre(title, genre);
+}
+public List<MovieEntity> in(List<String> title)
+{
+	return mr.findByTitleIn(title);
+}
+public Page<MovieEntity>  get_data_all(int page,int size)
+{
+	PageRequest obj=PageRequest.of(page,size);
+	return mr.findAll(obj);
+	}
+
+
+
+
+
+@Autowired JavaMailSender sender;
+
+public String sendmail(String receiver,String subject,String body)
+{
+	 try {
+	 MimeMessage message=sender.createMimeMessage();
+	 MimeMessageHelper helper=new MimeMessageHelper(message);
+	 
+	helper.setTo(receiver);
+	 
+	 helper.setSubject(subject);
+
+	 helper.setText(body);
+	 
+	 sender.send(message);
+	 
+	 MovieEntity email=new MovieEntity();
+	 email.setReceiver(receiver);
+	 email.setSubject(subject);
+	 email.setBody(body);
+	 mr.save(email);
+	 return "Email send successfully" +receiver;
+}
+	 catch (MessagingException e) {
+		// TODO Auto-generated catch block
+		return "email not found"+e.getMessage();
+	}
+
+}
+}
